@@ -1,16 +1,17 @@
 Python code to NYC taxi rides 
 
+	Where People Are in NYC ? Look at places where taxi pick up their passengers :
+or 
+	Guide To Uber Drivers : Where to get passngers at given time of day  : 
+
+		http://akuchlous.github.io/NYC_CAB_ANALYTICS/
+
+
 some slides at : http://www.twikstik.com/blog/
 
 - How long is taxi ride
 
-- How many passengers per taxi ride
-
-- How many different taxi's a taxi driver drives?
-
-- How many different drivers a taxi gets?
-
-and more to come!
+.... 
 
 DATA from : 
 	http://chriswhong.com/open-data/foil_nyc_taxi/
