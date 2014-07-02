@@ -1,0 +1,169 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Heatmaps</title>
+    <style>
+      html, body, #map-canvas {
+        height: 100%;
+        margin: 0px;
+        padding: 0px
+      }
+      #panel {
+        position: absolute;
+        top: 5px;
+        left: 20%;
+        margin-left: -180px;
+        z-index: 5;
+        background-color: #fff;
+        padding: 5px;
+        border: 1px solid #999;
+      }
+    </style>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=visualization"></script>
+    <script>
+// Adding 500 Data Points
+var map, pointarray, heatmap;
+
+var taxiData = [
+new google.maps.LatLng(40.755642,-73.925255),
+new google.maps.LatLng(40.770134,-73.957031),
+new google.maps.LatLng(40.714256,-73.922104),
+new google.maps.LatLng(40.753277,-73.989456),
+new google.maps.LatLng(40.726952,-73.949745),
+new google.maps.LatLng(40.765598,-73.992188),
+new google.maps.LatLng(40.762039,-73.970589),
+new google.maps.LatLng(40.758575,-73.991966),
+new google.maps.LatLng(40.743778,-73.867508),
+new google.maps.LatLng(40.706524,-74.006294),
+new google.maps.LatLng(40.756004,-73.87252),
+new google.maps.LatLng(40.763447,-73.949791),
+new google.maps.LatLng(40.79583,-73.861153),
+new google.maps.LatLng(40.80624,-73.948311),
+new google.maps.LatLng(40.739647,-73.88678),
+new google.maps.LatLng(40.75444,-73.895737),
+new google.maps.LatLng(40.734379,-73.871056),
+new google.maps.LatLng(40.729267,-73.976341),
+new google.maps.LatLng(40.76062,-73.955963),
+new google.maps.LatLng(40.7551,-73.961411),
+new google.maps.LatLng(40.759701,-73.87088),
+new google.maps.LatLng(40.770233,-73.928856),
+new google.maps.LatLng(40.800198,-73.975777),
+new google.maps.LatLng(40.716068,-73.949608),
+new google.maps.LatLng(40.742821,-73.935326),
+new google.maps.LatLng(40.764713,-73.992661),
+new google.maps.LatLng(40.675636,-73.979881),
+new google.maps.LatLng(40.805782,-73.989296),
+new google.maps.LatLng(40.739899,-73.977409),
+new google.maps.LatLng(40.733513,-74.007294),
+new google.maps.LatLng(40.746468,-73.896423),
+new google.maps.LatLng(40.717693,-73.985199),
+new google.maps.LatLng(40.751713,-73.963028),
+new google.maps.LatLng(40.727551,-73.999962),
+new google.maps.LatLng(40.778782,-73.986847),
+new google.maps.LatLng(40.762821,-73.985634),
+new google.maps.LatLng(40.751202,-73.98719),
+new google.maps.LatLng(40.814892,-73.946762),
+new google.maps.LatLng(40.774601,-73.920906),
+new google.maps.LatLng(40.742439,-73.979164),
+new google.maps.LatLng(40.692467,-73.947037),
+new google.maps.LatLng(40.715313,-73.961906),
+new google.maps.LatLng(40.808914,-73.963524),
+new google.maps.LatLng(40.757488,-73.934372),
+new google.maps.LatLng(40.759869,-73.970627),
+new google.maps.LatLng(40.782345,-73.987709),
+new google.maps.LatLng(40.755222,-73.984451),
+new google.maps.LatLng(40.644768,-74.131279),
+new google.maps.LatLng(40.764423,-73.922905),
+new google.maps.LatLng(40.718506,-73.954536),
+new google.maps.LatLng(40.766411,-73.986137),
+new google.maps.LatLng(40.754215,-74.008499),
+new google.maps.LatLng(40.717262,-73.991447),
+new google.maps.LatLng(40.770142,-73.961067),
+new google.maps.LatLng(40.725182,-73.872444),
+new google.maps.LatLng(40.756279,-73.996223),
+new google.maps.LatLng(40.777664,-73.945816),
+new google.maps.LatLng(40.755608,-73.962677),
+new google.maps.LatLng(40.719368,-73.991951),
+new google.maps.LatLng(40.751137,-73.990891),
+new google.maps.LatLng(40.744518,-73.975456),
+new google.maps.LatLng(40.731354,-74.000992),
+new google.maps.LatLng(40.725643,-73.935143),
+new google.maps.LatLng(40.746441,-73.865349),
+new google.maps.LatLng(40.742725,-73.977425),
+new google.maps.LatLng(40.729431,-73.920441),
+new google.maps.LatLng(40.756447,-73.870964),
+new google.maps.LatLng(40.719788,-73.861687),
+new google.maps.LatLng(40.734337,-73.950432),
+new google.maps.LatLng(40.728733,-73.994118),
+new google.maps.LatLng(40.758194,-73.979752),
+new google.maps.LatLng(40.753433,-73.977928),
+new google.maps.LatLng(40.737507,-73.919037),
+new google.maps.LatLng(40.765732,-73.918076),
+new google.maps.LatLng(40.739384,-73.994881),
+new google.maps.LatLng(40.727894,-73.961678),
+new google.maps.LatLng(40.777229,-73.964722),
+new google.maps.LatLng(40.673737,-73.958565),
+new google.maps.LatLng(40.738617,-73.868103),
+new google.maps.LatLng(40.740356,-73.99247),
+new google.maps.LatLng(40.744522,-73.995338),
+new google.maps.LatLng(40.762749,-73.974556),
+new google.maps.LatLng(40.767254,-73.979767),
+new google.maps.LatLng(40.773613,-73.872398),
+new google.maps.LatLng(40.734783,-73.945801),
+new google.maps.LatLng(40.74897,-73.977394),
+new google.maps.LatLng(40.747227,-73.981483),
+new google.maps.LatLng(40.721699,-73.986374),
+new google.maps.LatLng(40.741417,-73.979553),
+new google.maps.LatLng(40.79517,-73.972931),
+new google.maps.LatLng(40.689892,-73.870918),
+new google.maps.LatLng(40.714119,-73.943771),
+new google.maps.LatLng(40.764187,-73.980186),
+new google.maps.LatLng(40.762913,-73.986107),
+new google.maps.LatLng(40.758438,-73.783073),
+new google.maps.LatLng(40.727852,-74.010925),
+new google.maps.LatLng(40.759434,-74.005798),
+
+];
+function initialize() {
+  var mapOptions = {
+    zoom: 12,
+    center: new google.maps.LatLng(40.76284 , -73.905),
+    mapTypeId: google.maps.MapTypeId.MAP
+  };
+  map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+  var pointArray = new google.maps.MVCArray(taxiData);
+  heatmap = new google.maps.visualization.HeatmapLayer({
+    data: pointArray
+  });
+  heatmap.setMap(map);
+}
+
+
+google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
+  </head>
+
+  <body>
+    <div id="panel">
+Guide For Uber Drivers Where Passengers are: <a href="http://chriswhong.com/open-data/foil_nyc_taxi/">Based on taxi data </a></br>
+<b>
+2013-07-02 04:00Tuesday
+</b>
+</br> 
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- mapadsmall -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:320px;height:50px"
+     data-ad-client="ca-pub-2853949053079340"
+     data-ad-slot="4253984965"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+<a href="http://twikstik.com/"> Brought to you by :twikstik.com :  Bay Area Real Estate</a></br> 
+ <i> Next <a href="http://akuchlous.github.io/NYC_CAB_ANALYTICS/July/1/25.html">2013-07-02 04:10</a></i>
+    </div>
+    <div id="map-canvas"></div>
+  </body>
+</html>
