@@ -1,5 +1,7 @@
 Python code to NYC taxi rides 
 
+given New Yoirk Taxi data : create a HEATMAP of taxi pickup areas! 
+
 	Where People Are in NYC ? Look at places where taxi pick up their passengers :
 or 
 	Guide To Uber Drivers : Where to get passngers at given time of day  : 
@@ -7,11 +9,6 @@ or
 		http://akuchlous.github.io/NYC_CAB_ANALYTICS/
 
 
-some slides at : http://www.twikstik.com/blog/
-
-- How long is taxi ride
-
-.... 
 
 DATA from : 
 	http://chriswhong.com/open-data/foil_nyc_taxi/
